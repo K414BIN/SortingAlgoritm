@@ -48,6 +48,7 @@ namespace Lesson_8
                         {
                             vector[t] = s[i, j];
                             t++;
+                            s[i, j] = 0;
                         }
                 }
 
