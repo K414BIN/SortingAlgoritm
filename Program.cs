@@ -9,19 +9,24 @@ namespace Lesson_8
 {
     class Program
     {
-        public const int sizeArr = 20000;
         static void Main(string[] args)
         {
-            int[] input_ar = new int[] { 10, 24, 22, 62, 1, 50, 100, 75, 2, 3 };
+            Random rand = new Random();
+            int len = rand.Next(102) + 12;
+            int[] input_ar = new int[len];
+            for (var value=0; value <len;value++)
+            {
+              input_ar[value] = rand.Next(10020) + 12;
+            }
             Console.WriteLine("Массив целых чисел.");
             prin(input_ar);
             Console.WriteLine("Блочная сортировка этого массива.");
-            bucket_sort(input_ar);
-            prin(bucket_sort(input_ar));
+            int[] b = bucket_sort(input_ar) ;
+            prin(b);
             Console.WriteLine("Массив целых чисел, загруженный из файла.");
             prin(loadArr());
             Console.WriteLine("Блочная сортировка этого масива.");
-            int[] b = bucket_sort(loadArr());
+            b = bucket_sort(loadArr());
             prin(b);
             Console.ReadLine();
         }
@@ -45,7 +50,7 @@ namespace Lesson_8
                 for (int i = 0; i < n; i++)
                 {
                     int temp = vector[i] / digit;
-                    int ostatok = temp % 10;
+                    int ostatok = temp % r;
                     s[ostatok, i] = vector[i];
                 }
                 // счетчик
@@ -54,6 +59,7 @@ namespace Lesson_8
                 for (int i = 0; i < n; i++)
                 {
                     for (int j = 0; j < n; j++)
+                        // если элемент не ноль
                         if (s[i, j] != 0)
                         {
                             vector[t] = s[i, j];
@@ -72,7 +78,6 @@ namespace Lesson_8
             {
                 Console.Write(arr[f]);
                 Console.Write(' ');
-
             }
             Console.WriteLine();
         }
