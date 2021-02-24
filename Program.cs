@@ -28,6 +28,7 @@ namespace Lesson_8
             Console.WriteLine("Блочная сортировка этого масива.");
             b = bucket_sort(loadArr());
             prin(b);
+            Go();
             Console.ReadLine();
         }
         static int[] bucket_sort(int[] arr)
@@ -81,6 +82,68 @@ namespace Lesson_8
             }
             Console.WriteLine();
         }
+        static void Go()
+        {
+            string fileName = "get.txt";
+            int len = File.ReadAllLines(fileName).Length;
+            int ls = 25;
+            int z = len / ls;
+            //  Console.WriteLine(z);
+            int j = 0;
+            string[] someText = new string[] { };
+            for (int i = 0; i <= z * ls; i += ls)
+            {
+                string outFile = "$$temp" + j + ".txt"; j++;
+                string[] anyText = DividingText(fileName, i);
+            
+                someText = cleaningText(anyText);
+                for (int k = 0; k < someText.Length; k++)
+                {
+                    File.AppendAllText(outFile, someText[k]);
+                    File.AppendAllText(outFile, Environment.NewLine);
+                }
+            }
+        }
+
+        // Очищаем входные данные от ненужных символов
+        static string[] cleaningText(string[] str)
+        {
+            string[] someText = str;
+            char tempStr = ':';
+            int index;
+            int remuve = 15;
+            for (int i = 0; i < someText.Length; i++)
+            {
+                index = -1;
+                if (someText[i] != null) {  index = someText[i].IndexOf(tempStr); }
+                if (index >= 0)
+                {
+                   // int del = Math.Abs(someText[i].Length - index);
+                  //  someText[i] = someText[i].Remove(index, del);
+                    someText[i] = someText[i].Remove(0, remuve);
+                }
+                else someText[i] = null;
+            }
+            var tempList = new List<string>();
+            for (int i = 0; i < someText.Length; i++) if (!tempList.Contains(someText[i])) { tempList.Add(someText[i]); }
+            someText = tempList.ToArray();
+            return someText;
+        }//конец метода
+        static string[] DividingText(string text, int start)
+        {
+            byte[] inputBuffer = new byte[255];
+            int delta = 25;
+            int i = 0;
+            System.IO.StreamReader fileIn = new System.IO.StreamReader(text);
+            Console.SetIn(fileIn);
+            while (i != start) { if (!fileIn.EndOfStream) Console.ReadLine(); i++; }
+            string[] anyText = new string[delta];
+            for (i = 0; i < delta; i++) { anyText[i] = Console.ReadLine(); }
+            Stream inputStream = Console.OpenStandardInput(inputBuffer.Length);
+            Console.SetIn(new StreamReader(inputStream, Console.InputEncoding, false, inputBuffer.Length));
+            return anyText;
+        }
+
         static int[] loadArr()
         {
             string fileName = "ByteFile.txt";
